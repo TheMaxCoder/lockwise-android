@@ -7,9 +7,11 @@
 package mozilla.lockbox.view
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.PopupWindow
 import mozilla.lockbox.R
 
@@ -21,12 +23,15 @@ class ItemDetailOptionMenu(
     var dismissListener: (() -> Unit)? = null
 
     init {
-        contentView = LayoutInflater.from(context).inflate(R.layout.fragment_item_detail, null)
+        contentView =
+            LayoutInflater.from(context).inflate(R.layout.menu_fragment_item_details, null)
         setBackgroundDrawable(context.getDrawable(R.drawable.sort_menu_bg))
         isFocusable = true
         height = ViewGroup.LayoutParams.WRAP_CONTENT
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         elevation = context.resources.getDimension(R.dimen.menu_elevation)
+        contentView.findViewById<Button>(R.id.edit).setOnClickListener(this)
+        contentView.findViewById<Button>(R.id.delete).setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -35,7 +40,7 @@ class ItemDetailOptionMenu(
     }
 
     fun show(anchor: View) {
-        super.showAsDropDown(anchor, 0, 0)
+        super.showAtLocation(anchor, Gravity.TOP or Gravity.END, 0, 0)
     }
 
     override fun dismiss() {
